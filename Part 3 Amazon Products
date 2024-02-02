@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Gallery</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    #gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 10px;
+      padding: 20px;
+    }
+
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.1);
+    }
+
+    #upload-button {
+      margin: 20px;
+      padding: 10px 20px;
+      background-color: #3897f0; /* Instagram's blue color */
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <button id="upload-button">Upload Image</button>
+
+  <div id="gallery">
+    <!-- Replace the following with your image URLs -->
+    <div class="gallery-item">
+      <img src=" image1 jpg" alt="Image 1">
+    </div>
+    <div class="gallery-item">
+      <img src="image2.jpg" alt="Image 2">
+    </div>
+    <div class="gallery-item">
+      <img src="image3.jpg" alt="Image 3">
+    </div>
+    <!-- Add more gallery items as needed -->
+  </div>
+
+</body>
+</html>
