@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Application</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    #quiz-container {
+      max-width: 500px;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    #question {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+    }
+    .option {
+      margin-bottom: 10px;
+    }
+    #timer {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+    #score {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+    #feedback {
+      margin-top: 10px;
+    }
+    button {
+      padding: 10px;
+      background-color: #3498db;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:disabled {
+      background-color: #95a5a6;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <div id="quiz-container">
+    <div id="timer">Timer: <span id="countdown">10</span> seconds</div>
+    <div id="score">Score: <span id="current-score">0</span></div>
+    <div id="question"></div>
+    <div class="options" id="options-container"></div>
+    <div id="feedback"></div>
+    <button id="submit-btn" onclick="nextQuestion()" disabled>Next Question</button>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        question: "What is the capital of India?",
+        options: ["Berlin", "Madrid", "Paris", "New Delhi"],
+        correctAnswer: "New Delhi"
+     }
+   ];
+      let currentQuestionIndex = 0;
+    let score = 0;
+    let countdownValue = 10;
+    let countdownTimer;
+
+    function startQuiz() {
+      displayQuestion();
+      startCountdown();
+    }
+
+    function displayQuestion() {
+      const questionElement = document.getElementById("question");
+      const optionsContainer = document.getElementById("options-container");
+      const currentQuestion = quizData[currentQuestionIndex];
+
+      questionElement.textContent = currentQuestion.question;
+      optionsContainer.innerHTML = "";
+
+      currentQuestion.options.forEach((option, index) => {
+        const optionButton = document.createElement("button");
+        optionButton.className = "option";
+        optionButton.textContent = option;
+        optionButton.onclick = () => handleAnswer(option, index);
+        optionsContainer.appendChild(optionButton);
+      });
+    }
+
+    function handleAnswer(selectedOption, selectedIndex) {
+      const currentQuestion = quizData[currentQuestionIndex];
+
+      if (selectedOption === currentQuestion.correctAnswer) {
+        score++;
+      }
+
+      document.getElementById("current-score").textContent = score;
+      document.getElementById("feedback").textContent = selectedOption === currentQuestion.correctAnswer ? "Correct!" : "Wrong!";
+      
+      disableOptions();
+      document.getElementById("submit-btn").disabled = false;
+      clearInterval(countdownTimer);
+    }
+
+    function disableOptions() {
+      const options = document.querySelectorAll(".option");
+      options.forEach(option => option.disabled = true);
+    }
+
+    function startCountdown() {
+      countdownTimer = setInterval(() => {
+        document.getElementById("countdown").textContent = countdownValue;
+        if (countdownValue === 0) {
+          handleAnswer("", -1); // Timeout, passing -1 as selectedIndex
+        }
+        countdownValue--;
+      }, 1000);
+    }
+
+    function nextQuestion() {
+      currentQuestionIndex++;
+
+      if (currentQuestionIndex < quizData.length) {
+        displayQuestion();
+        resetCountdown();
+        document.getElementById("submit-btn").disabled = true;
+        document.getElementById("feedback").textContent = "";
+        enableOptions();
+      } else {
+        endQuiz();
+      }
+    }
+
+    function resetCountdown() {
+      countdownValue = 10;
+      startCountdown();
+    }
+
+    function enableOptions() {
+      const options = document.querySelectorAll(".option");
+      options.forEach(option => option.disabled = false);
+    }
+
+    function endQuiz() {
+      document.getElementById("quiz-container").innerHTML = `<h2>Quiz Ended</h2><p>Your final score is: ${score}</p>`;
+    }
+    startQuiz();
+  </script>
+</body>
+</html>
