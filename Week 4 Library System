@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        input, button {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #bookList {
+            margin-bottom: 20px;
+        }
+
+        .no-results {
+            color: #f00;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Library Management System</h1>
+
+        <!-- Task: Adding Books to the Library -->
+        <form id="addBookForm">
+            <label for="title">Title:</label>
+            <input type="text" id="title" required>
+
+            <label for="author">Author:</label>
+            <input type="text" id="author" required>
+
+            <label for="pages">Pages:</label>
+            <input type="number" id="pages" required>
+
+            <label for="genre">Genre:</label>
+            <input type="text" id="genre" required>
+
+            <button type="button" onclick="addBook()">Add Book</button>
+        </form>
+
+        <!-- Task: Searching for Books -->
+        <label for="searchTitle">Search by Title:</label>
+        <input type="text" id="searchTitle" oninput="searchBooks()">
+
+        <!-- Task: Displaying Books -->
+        <div id="bookList"></div>
+
+        <!-- Task: Enhancing User Interaction -->
+        <p class="no-results" id="noResultsMessage">No books found.</p>
+
+        <!-- JavaScript -->
+        <script>
+            let library = [];
+
+            function addBook() {
+                const title = document.getElementById('title').value;
+                const author = document.getElementById('author').value;
+                const pages = document.getElementById('pages').value;
+                const genre = document.getElementById('genre').value;
+
+                if (title && author && pages && genre) {
+                    const book = { title, author, pages, genre };
+                    library.push(book);
+                    displayBooks();
+                    resetForm();
+                } else {
+                    alert('Please fill in all required fields.');
+                }
+            }
+
+            function displayBooks() {
+                const bookListContainer = document.getElementById('bookList');
+                bookListContainer.innerHTML = '';
+
+                if (library.length > 0) {
+                    library.forEach(book => {
+                        const bookInfo = document.createElement('p');
+                        bookInfo.textContent = `Title: ${book.title}, Author: ${book.author}, Pages: ${book.pages}, Genre: ${book.genre}`;
+                        bookListContainer.appendChild(bookInfo);
+                    });
+                    document.getElementById('noResultsMessage').style.display = 'none';
+                } else {
+                    document.getElementById('noResultsMessage').style.display = 'block';
+                }
+            }
+
+            function searchBooks() {
+                const searchTerm = document.getElementById('searchTitle').value.toLowerCase();
+                const filteredBooks = library.filter(book => book.title.toLowerCase().includes(searchTerm));
+                library = filteredBooks;
+                displayBooks();
+            }
+
+            function resetForm() {
+                document.getElementById('addBookForm').reset();
+            }
+        </script>
+    </div>
+</body>
+</html>
