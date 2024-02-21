@@ -1,0 +1,23 @@
+                cityCard.classList.add("city-card");
+
+                const cityName = document.createElement("div");
+                cityName.classList.add("city-name");
+                cityName.textContent = city.name;
+
+                const cityDetails = document.createElement("div");
+                cityDetails.classList.add("city-details");
+                cityDetails.textContent = `Population: ${city.population}, State: ${city.state}`;
+
+                cityCard.appendChild(cityName);
+                cityCard.appendChild(cityDetails);
+                container.appendChild(cityCard);
+            });
+        }
+    </script>
+    <title>Indian Cities</title>
+</head>
+<body>
+    <h1>Indian Cities</h1>
+    <div id="city-container" style="display: flex; flex-wrap: wrap; justify-content: center;"></div>
+</body>
+</html>
