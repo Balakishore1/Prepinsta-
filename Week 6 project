@@ -1,0 +1,106 @@
+// Import required modules
+const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+
+// Initialize Express app
+const app = express();
+
+// Body parser middleware
+app.use(bodyParser.json());
+
+// Connect to MongoDB
+mongoose.connect('mongodb://localhost/food_nutrition_db', { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.log(err));
+
+// Define schema for food and nutrition data
+const foodSchema = new mongoose.Schema({
+  foodItemName: String,
+  foodGroup: String,
+  description: String,
+  nutritionalInformation: {
+    calories: Number,
+    macronutrients: {
+      proteins: Number,
+      fats: Number,
+      carbohydrates: Number
+    },
+    micronutrients: {
+      vitamins: [String],
+      minerals: [String]
+    },
+    fiber: Number,
+    sodium: Number,
+    cholesterol: Number
+  },
+  servingSize: String,
+  allergens: [String],
+  ingredients: [String],
+  preparationMethods: [String],
+  certifications: [String],
+  countryOfOrigin: String,
+  brandOrManufacturer: String,
+  dietaryRestrictions: [String],
+  healthBenefits: [String],
+  bestPractices: [String]
+});
+
+// Create model for food items
+const Food = mongoose.model('Food', foodSchema);
+
+// CRUD operations
+
+// Create a new food item
+app.post('/api/foods', async (req, res) => {
+  try {
+    const newFood = await Food.create(req.body);
+    res.json(newFood);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+// Retrieve all food items
+app.get('/api/foods', async (req, res) => {
+  try {
+    const foods = await Food.find();
+    res.json(foods);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Retrieve a specific food item by ID
+app.get('/api/foods/:id', async (req, res) => {
+  try {
+    const food = await Food.findById(req.params.id);
+    res.json(food);
+  } catch (err) {
+    res.status(404).json({ message: 'Food item not found' });
+  }
+});
+
+// Update a food item
+app.put('/api/foods/:id', async (req, res) => {
+  try {
+    const updatedFood = await Food.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json(updatedFood);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+// Delete a food item
+app.delete('/api/foods/:id', async (req, res) => {
+  try {
+    await Food.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Food item deleted' });
+  } catch (err) {
+    res.status(404).json({ message: 'Food item not found' });
+  }
+});
+
+// Start server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
