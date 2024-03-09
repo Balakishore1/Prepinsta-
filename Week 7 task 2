@@ -1,0 +1,105 @@
+```jsx
+import React from 'react';
+
+const Header = () => {
+  return (
+    <header>
+      <h1>Travel Explorer</h1>
+      <nav>
+        <ul>
+          <li><a href="#destinations">Destinations</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+  );
+}
+
+export default Header;
+```
+
+HeroSection.js:
+
+```jsx
+import React from 'react';
+
+const HeroSection = () => {
+  return (
+    <section className="hero">
+      <img src="travel-image.jpg" alt="Travel" />
+      <h2>Explore the World</h2>
+      <p>Discover amazing destinations and create unforgettable memories.</p>
+    </section>
+  );
+}
+
+export default HeroSection;
+```
+
+DestinationsSection.js:
+
+```jsx
+import React from 'react';
+
+const DestinationsSection = () => {
+  return (
+    <section id="destinations" className="destinations">
+      <h2>Popular Destinations</h2>
+      <div className="destination">
+        <img src="destination1.jpg" alt="Destination 1" />
+        <p>Description of Destination 1</p>
+      </div>
+      <div className="destination">
+        <img src="destination2.jpg" alt="Destination 2" />
+        <p>Description of Destination 2</p>
+      </div>
+    </section>
+  );
+}
+
+export default DestinationsSection;
+```
+
+ContactForm.js:
+
+```jsx
+import React from 'react';
+
+const ContactForm = () => {
+  return (
+    <section id="contact" className="contact">
+      <h2>Contact Us</h2>
+      <form>
+        <input type="text" placeholder="Name" />
+        <input type="email" placeholder="Email" />
+        <textarea placeholder="Message"></textarea>
+        <button type="submit">Submit</button>
+      </form>
+    </section>
+  );
+}
+
+export default ContactForm;
+```
+
+Footer.js:
+
+```jsx
+import React from 'react';
+
+const Footer = () => {
+  return (
+    <footer>
+      <p>Contact us at info@travelexplorer.com</p>
+      <div className="social-media">
+        <a href="#">Facebook</a>
+        <a href="#">Instagram</a>
+        <a href="#">Twitter</a>
+      </div>
+    </footer>
+  );
+}
+
+export default Footer;
+```
+
